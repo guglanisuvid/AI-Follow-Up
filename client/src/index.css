@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+html, body, #root {
+    height: 100%;
+}
+
+@theme {
+    --color-primary-100:#892CDC;
+    --color-primary-200:#BC6FF1;
+    --color-primary-300:#fdf6fd;
+    --color-accent-100:#D9ACF5;
+    --color-accent-200:#fff4ff;
+    --color-text-100:#EEEEEE;
+    --color-text-200:#FDEBED;
+    --color-bg-100:#222831;
+    --color-bg-200:#393E46;
+    --color-bg-300:#454e59;
+}
