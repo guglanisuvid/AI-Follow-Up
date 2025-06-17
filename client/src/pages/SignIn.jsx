@@ -24,7 +24,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
+    <div className="min-h-screen w-full h-full flex justify-center items-center">
       <div className="max-w-[480px] bg-bg-200 text-center p-8 flex flex-col gap-8 rounded-2xl shadow-2xl">
         <h1 className="text-3xl font-semibold">Welcome to AI Follow-Up</h1>
         <p className="text-text-200 opacity-80">

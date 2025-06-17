@@ -2,9 +2,9 @@ import { google } from "googleapis";
 import User from "../models/user.model.js";
 import getAuthPayload from "./getAuthPayload.js";
 
-const getOAuth2Client = () => {
-    let oauth2Client = null;
+let oauth2Client = null;
 
+const getOAuth2Client = () => {
     try {
         if (!oauth2Client) {
             oauth2Client = new google.auth.OAuth2(
@@ -18,23 +18,50 @@ const getOAuth2Client = () => {
 
                 const user = await User.findOne({ googleId: payload.sub });
                 if (!user) {
-                    return;
+                    return { error: "User not found." }
                 }
 
                 if (tokens) {
-                    await User.updateOne(
-                        { _id: user._id },
-                        {
-                            $set: {
-                                tokens: {
-                                    access_token: tokens.access_token,
-                                    refresh_token: tokens.refresh_token,
-                                    id_token: tokens.id_token,
-                                    token_type: tokens.token_type
+                    if (tokens.access_token) {
+                        await User.updateOne(
+                            { _id: user._id },
+                            {
+                                $set: {
+                                    'tokens.access_token': tokens.access_token
                                 }
                             }
-                        }
-                    );
+                        );
+                    }
+                    if (tokens.refresh_token) {
+                        await User.updateOne(
+                            { _id: user._id },
+                            {
+                                $set: {
+                                    'tokens.refresh_token': tokens.refresh_token
+                                }
+                            }
+                        );
+                    }
+                    if (tokens.token_type) {
+                        await User.updateOne(
+                            { _id: user._id },
+                            {
+                                $set: {
+                                    'tokens.token_type': tokens.token_type
+                                }
+                            }
+                        );
+                    }
+                    if (tokens.id_token) {
+                        await User.updateOne(
+                            { _id: user._id },
+                            {
+                                $set: {
+                                    'tokens.id_token': tokens.id_token
+                                }
+                            }
+                        );
+                    }
                 }
             });
         }

@@ -15,6 +15,7 @@ const tokensSchema = new mongoose.Schema({
     },
     id_token: {
         type: String,
+        required: true,
     },
 });
 

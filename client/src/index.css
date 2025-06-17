@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-html, body, #root {
-    height: 100%;
-}
-
 @theme {
     --color-primary-100:#892CDC;
     --color-primary-200:#BC6FF1;

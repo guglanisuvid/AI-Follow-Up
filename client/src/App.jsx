@@ -3,13 +3,13 @@ import SignIn from "./pages/SignIn";
 import Message from "./pages/Message";
 import NotFound from "./pages/NotFound";
 import AuthCallback from "./pages/AuthCallback";
-import Inbox from "./pages/Inbox";
+import SentMessages from "./pages/SentMessages";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import Logout from "./utils/Logout";
 
 function App() {
   return (
-    <div className="h-full w-full max-w-[2000px] bg-bg-100 text-text-100 px-16">
+    <div className="min-h-screen h-full w-full max-w-[2000px] bg-bg-100 text-text-100 px-16">
       <Routes>
         <Route
           path="/"
@@ -36,10 +36,10 @@ function App() {
           }
         />
         <Route
-          path="/inbox"
+          path="/sent-messages"
           element={
             <ProtectedRoutes protectedRoute={true}>
-              <Inbox />
+              <SentMessages />
             </ProtectedRoutes>
           }
         />

@@ -12,7 +12,6 @@ const AuthCallback = () => {
       const urlParams = new URLSearchParams(window.location.search);
 
       const error = urlParams.get("error");
-
       if (error) {
         throw new Error(error);
       }
@@ -49,7 +48,7 @@ const AuthCallback = () => {
       localStorage.setItem("jwt_token", data.jwt_token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      navigate("/inbox", { replace: true });
+      navigate("/sent-messages", { replace: true });
     } catch (error) {
       throw new Error(error);
     }

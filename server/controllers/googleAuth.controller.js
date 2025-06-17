@@ -2,6 +2,7 @@ import User from '../models/user.model.js';
 import generateJWTtoken from '../utils/generateJWTtoken.js';
 import getOAuth2Client from '../utils/getOAuth2Client.js';
 import getAuthPayload from '../utils/getAuthPayload.js';
+import { get } from 'mongoose';
 
 const googleAuth = {
     getAuthUrl: async (req, res) => {
@@ -9,17 +10,18 @@ const googleAuth = {
             const scopes = [
                 'https://www.googleapis.com/auth/userinfo.email',
                 'https://www.googleapis.com/auth/userinfo.profile',
+                'https://mail.google.com/',
                 'https://www.googleapis.com/auth/gmail.labels',
                 'https://www.googleapis.com/auth/gmail.send',
                 'https://www.googleapis.com/auth/gmail.modify',
                 'https://www.googleapis.com/auth/gmail.compose',
                 'https://www.googleapis.com/auth/gmail.readonly',
-                'https://www.googleapis.com/auth/gmail.metadata',
                 'https://www.googleapis.com/auth/gmail.insert',
                 'https://www.googleapis.com/auth/gmail.settings.basic',
             ];
 
             const client = getOAuth2Client();
+
             const url = client.generateAuthUrl({
                 access_type: 'offline',
                 scope: scopes,

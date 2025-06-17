@@ -19,7 +19,7 @@ const ProtectedRoutes = ({ children, protectedRoute }) => {
       }
     } else {
       if (token && user) {
-        navigate("/inbox", { replace: true });
+        navigate("/sent-messages", { replace: true });
         return;
       } else {
         setLoading(false);
