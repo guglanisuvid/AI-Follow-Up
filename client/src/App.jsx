@@ -6,6 +6,7 @@ import AuthCallback from "./pages/AuthCallback";
 import SentMessages from "./pages/SentMessages";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import Logout from "./utils/Logout";
+import LabelledMessages from "./pages/LabelledMessages";
 
 function App() {
   return (
@@ -40,6 +41,14 @@ function App() {
           element={
             <ProtectedRoutes protectedRoute={true}>
               <SentMessages />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/labelled-messages"
+          element={
+            <ProtectedRoutes protectedRoute={true}>
+              <LabelledMessages />
             </ProtectedRoutes>
           }
         />
