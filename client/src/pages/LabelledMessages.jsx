@@ -25,7 +25,8 @@ const LabelledMessages = () => {
       });
 
       if (!res.ok) {
-        throw new Error("Failed to get labelled messages");
+        setIsLoading(false);
+        return;
       }
 
       const data = await res.json();

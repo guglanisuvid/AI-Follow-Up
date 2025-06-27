@@ -1,5 +1,8 @@
+import { get } from "mongoose";
+import { inngest } from "../inngest/client.js";
 import getGmailClient from "../utils/getGmailClient.js";
 import getOrCreateLabel from "../utils/getOrCreateLabel.js";
+import getOAuth2Client from "../utils/getOAuth2Client.js";
 
 const gmail = {
     getSentMessages: async (req, res) => {
@@ -47,7 +50,6 @@ const gmail = {
 
             const label = await getOrCreateLabel(gmailClient);
 
-            console.log(label);
             const labelledMessageList = await gmailClient.users.messages.list({
                 userId: 'me',
                 maxResults: 20,
@@ -91,6 +93,13 @@ const gmail = {
                 requestBody: {
                     ids: req.body.messageIds,
                     addLabelIds: [label.label.id]
+                }
+            });
+
+            await inngest.send({
+                name: "storing-labelled-messages",
+                data: {
+                    messageIds: req.body.messageIds
                 }
             });
 

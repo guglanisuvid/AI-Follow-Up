@@ -1,8 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const messageSchema = new mongoose.Schema({
-    userId: {
-        type: String,
+    uid: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
         required: true,
     },
     mainMessage: {
@@ -11,24 +12,31 @@ const messageSchema = new mongoose.Schema({
     },
     messageType: {
         type: String,
-        enum: ["Outreach", "Application", "Invitation", "Reminder", "Request", "Proposal", "Follow Up", "Introductory"]
+        enum: ["", "Outreach", "Application", "Invitation", "Reminder", "Request", "Proposal", "Follow Up", "Introductory"],
+        default: "",
     },
     messageTone: {
         type: String,
-        enum: ["Formal", "Friendly", "Polite", "Direct", "Casual", "Persuasive", "Appreciative", "Neutral"]
+        enum: ["", "Formal", "Friendly", "Polite", "Direct", "Casual", "Persuasive", "Appreciative", "Neutral"],
+        default: "",
     },
     followUp: {
         subject: {
             type: String,
+            default: "",
         },
         message: {
             type: String,
+            default: "",
         },
         tone: {
             type: String,
+            enum: ["", "Formal", "Friendly", "Polite", "Direct", "Casual", "Persuasive", "Appreciative", "Neutral"],
+            default: "",
         },
         scheduledAt: {
             type: Date,
+            default: Date.now
         },
         status: {
             type: String,

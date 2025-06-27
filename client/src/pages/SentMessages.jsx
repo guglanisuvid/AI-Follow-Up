@@ -50,6 +50,7 @@ const SentMessages = () => {
       });
 
       if (!res.ok) {
+        setIsLoading(false);
         throw new Error("Failed to get sent messages");
       }
 
