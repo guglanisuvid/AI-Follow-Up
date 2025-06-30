@@ -1,20 +1,20 @@
 import { useEffect, useRef, useState } from "react";
-import MessageCard from "../components/MessageCard";
+import DraftMessageCard from "../components/DraftMessageCard";
 import { BiCheckCircle, BiErrorCircle } from "react-icons/bi";
 
-const LabelledMessages = () => {
+const DraftMessages = () => {
   const [messages, setMessages] = useState([]);
   const [isloading, setIsLoading] = useState(true);
   const processedRef = useRef(false);
 
   useEffect(() => {
-    const getLabelledMessages = async () => {
+    const getDrafts = async () => {
       if (processedRef.current) return;
       processedRef.current = true;
 
       const url = `${
         import.meta.env.VITE_API_URL
-      }/api/gmail/get/labelled-messages`;
+      }/api/gmail/get/draft-messages`;
       const res = await fetch(url, {
         method: "GET",
         credentials: "include",
@@ -35,7 +35,7 @@ const LabelledMessages = () => {
       setIsLoading(false);
     };
 
-    getLabelledMessages();
+    getDrafts();
   }, []);
 
   if (isloading)
@@ -48,15 +48,30 @@ const LabelledMessages = () => {
   return (
     <div>
       <div className="text-lg font-semibold py-2 border-b-2">
-        Your Labelled Messages
+        Your Draft Messages
       </div>
       <div className="flex justify-center items-start gap-8 flex-wrap py-8 overflow-auto">
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`relative flex flex-col gap-4 bg-bg-200 rounded-xl shadow-lg cursor-pointer`}
+            className={`relative flex flex-col gap-4 bg-bg-200 rounded-xl shadow-lg`}
           >
-            <MessageCard message={message} />
+            <DraftMessageCard message={message} />
+            <div>
+              <div className="flex justify-between items-center text-sm py-2 mx-4 border-t-2">
+                <span className=" opacity-60">Draft created</span>
+                <button className="opacity-80">
+                  {new Date(Number(message.date)).toLocaleString("en-IN", {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>
@@ -64,4 +79,4 @@ const LabelledMessages = () => {
   );
 };
 
-export default LabelledMessages;
+export default DraftMessages;

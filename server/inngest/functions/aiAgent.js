@@ -1,5 +1,6 @@
 import Message from "../../models/message.model.js";
 import analyzeMessage from "../../utils/gemini.js";
+import getGmailClient from "../../utils/getGmailClient.js";
 import { inngest } from "../client.js";
 
 const aiAgent = inngest.createFunction(
@@ -25,7 +26,7 @@ const aiAgent = inngest.createFunction(
                             "followUp.subject": aiResponse.followUpSubject,
                             "followUp.message": aiResponse.followUpBody,
                             "followUp.tone": aiResponse.followUpTone,
-                            "followUp.scheduledAt": new Date(Date.now() + 24 * 60 * 60 * 1000)
+                            "followUp.scheduledAt": new Date(Date.now() + 12 * 60 * 60 * 1000)
                         }, { new: true }
                     );
                 } else {
@@ -37,22 +38,38 @@ const aiAgent = inngest.createFunction(
                 }
             });
 
-            await step.run("create and send-draft", async () => {
-                console.log(aiResult);
-                // const draft = Buffer.from(
-                //     `To: ${to}\r\n` +
-                //     `Subject: ${subject}\r\n` +
-                //     `Content-Type: text/html; charset=UTF-8\r\n\r\n` +
-                //     `${message}`
-                // ).toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+            const draft = await step.run("create-draft", async () => {
+                const msg = JSON.parse(aiResult.mainMessage);
 
-                // await inngest.send({
-                //     name: "send-follow-up",
-                //     data: {
-                //     },
-                //     runAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
-                // });
-            })
+                const draftMsg = Buffer.from(
+                    `To: ${msg.headers[5].value}\r\n` +
+                    `Subject: ${aiResult.followUp.subject}\r\n` +
+                    `Content-Type: text/html; charset=UTF-8\r\n\r\n` +
+                    `${aiResult.followUp.message}`
+                ).toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+
+                const gmail = getGmailClient();
+                const draft = await gmail.users.drafts.create({
+                    userId: 'me',
+                    resource: {
+                        message: {
+                            raw: draftMsg
+                        }
+                    }
+                });
+
+                return draft.data;
+            });
+
+            await step.run("send-follow-up", async () => {
+                return await inngest.send({
+                    name: "sending-follow-up",
+                    data: {
+                        draft,
+                        time: aiResult.followUp.scheduledAt
+                    }
+                });
+            });
 
             return true;
         } catch (error) {

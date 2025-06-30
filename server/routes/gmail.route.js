@@ -6,6 +6,7 @@ const Router = express.Router();
 
 Router.get('/get/sent-messages', verifyUser, gmail.getSentMessages);
 Router.get('/get/labelled-messages', verifyUser, gmail.getLabelledMessages);
+Router.get('/get/draft-messages', verifyUser, gmail.getDraftMessages);
 Router.post('/add-label', verifyUser, gmail.addLabelToMessages);
 
 export default Router;

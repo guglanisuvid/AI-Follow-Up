@@ -7,6 +7,7 @@ import SentMessages from "./pages/SentMessages";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import Logout from "./utils/Logout";
 import LabelledMessages from "./pages/LabelledMessages";
+import DraftMessages from "./pages/drafts";
 
 function App() {
   return (
@@ -49,6 +50,14 @@ function App() {
           element={
             <ProtectedRoutes protectedRoute={true}>
               <LabelledMessages />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/draft-messages"
+          element={
+            <ProtectedRoutes protectedRoute={true}>
+              <DraftMessages />
             </ProtectedRoutes>
           }
         />
