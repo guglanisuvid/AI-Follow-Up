@@ -29,7 +29,35 @@ The application integrates Gmail APIs, AI-generated contextual responses, and ba
 
 ## Workflow Architecture
 
-![Workflow Architecture](./assets/workflow-architecture.svg)
+```mermaid
+flowchart TD
+
+    A[User Authenticates with Google OAuth] --> B[Frontend Fetches Gmail Threads]
+
+    B --> C[User Selects Email Thread]
+
+    C --> D[Apply Tracking Label]
+
+    D --> E[Trigger Inngest Workflow]
+
+    E --> F[Fetch Email Context]
+
+    F --> G[Generate Follow-Up Draft using Gemini API]
+
+    G --> H[Create Gmail Draft]
+
+    H --> I[Schedule Delayed Follow-Up]
+
+    I --> J{Label Still Exists?}
+
+    J -- Yes --> K[Send Follow-Up Email]
+
+    J -- No --> L[Cancel Workflow]
+
+    K --> M[Workflow Completed]
+
+    L --> M
+```
 
 ---
 
