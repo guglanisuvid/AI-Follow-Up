@@ -1,107 +1,98 @@
 # AI Follow Up
 
-An AI-powered application to automate email follow-ups seamlessly with scheduled drafts and smart management.
+AI Follow Up is an event-driven email automation platform that generates and schedules AI-powered follow-up drafts for Gmail conversations.
+
+The application integrates Gmail APIs, AI-generated contextual responses, and background workflow orchestration to automate follow-up communication while giving users full control over draft management.
 
 ---
 
-## 🚀 Workflow
+## Features
 
-1. **User authenticates** and grants necessary permissions.
-2. **User selects and labels** emails from the list.
-3. A **follow-up email draft is created automatically** in the background using AI.
-4. The **follow-up email is sent after 12 hours** of being created.
-5. **Delete the draft** anytime if you don't want to send it.
-6. **Remove the label** from the email to stop the application from tracking and sending follow-ups.
+* Google OAuth-based authentication
+* AI-generated follow-up email drafts
+* Delayed email scheduling using Inngest workflows
+* Gmail label-based tracking system
+* Draft deletion and workflow cancellation
+* Event-driven background processing
 
 ---
 
-## 🛠️ Tools & Technologies
+## Workflow
+
+1. User authenticates with Google OAuth.
+2. Emails are selected and tracked using labels.
+3. AI-generated follow-up drafts are created contextually.
+4. Background workflows schedule follow-up emails after a defined delay.
+5. Users can cancel follow-ups by deleting drafts or removing labels.
+
+---
+
+## Workflow Architecture
+
+![Workflow Architecture](./assets/workflow-architecture.svg)
+
+---
+
+## Architecture
 
 ### Frontend
 
-- Vite
-- React
-- Tailwind CSS
+* React
+* Vite
+* Tailwind CSS
 
 ### Backend
 
-- Inngest
-- @inngest/agent-kit
-- Express
-- Google APIs
-- Mongoose
-- Node.js
-- JSON Web Token (jsonwebtoken)
+* Node.js
+* Express.js
+* MongoDB + Mongoose
+
+### Workflow & Automation
+
+* Inngest
+* @inngest/agent-kit
+
+### Integrations
+
+* Gmail API
+* Google OAuth
+* Gemini API
 
 ---
 
-## 📁 Folder Structure
+## Engineering Challenges
 
-AI FOLLOW-UP/
-├── client
-│ ├── node_modules
-│ ├── public
-│ ├── src
-│ ├── .env
-│ ├── index.html
-│ ├── package.json
-│ ├── vite.config.js
-│ └── ...
-├── server
-│ ├── controllers
-│ ├── inngest
-│ ├── middlewares
-│ ├── models
-│ ├── prompts
-│ ├── routes
-│ ├── utils
-│ ├── .env
-│ ├── index.js
-│ ├── package.json
-│ └── ...
-└── README.md
+Some key engineering challenges solved in this project include:
 
-### Explanation
-
-- **client/** – Contains the frontend React application built with Vite and Tailwind CSS.
-  - **public/** – Static assets.
-  - **src/** – All React components, pages, and logic.
-  - **.env** – Environment variables for the client.
-  - **vite.config.js** – Vite configuration file.
-- **server/** – Contains the backend Express server.
-  - **controllers/** – Request handlers and business logic.
-  - **inngest/** – Inngest event-driven workflows and functions.
-  - **middlewares/** – Custom Express middleware functions.
-  - **models/** – Mongoose models for MongoDB collections.
-  - **prompts/** – AI prompt templates used for generating follow-up emails.
-  - **routes/** – API route definitions.
-  - **utils/** – Utility functions for the backend.
-  - **.env** – Environment variables for the server.
-  - **index.js** – Entry point for the Express server.
-- **README.md** – Project documentation.
+* Managing delayed background workflows reliably
+* Designing AI prompts for contextual follow-up generation
+* Preventing duplicate follow-up processing
+* Handling Gmail API authentication and permissions
+* Building event-driven workflow orchestration using Inngest
 
 ---
 
-## ⚡ Running the Project
+## Local Setup
 
-1. Clone the repository:
+### Clone the repository
 
-   ```bash
-   git clone https://github.com/guglanisuvid/AI-Follow-Up.git
-   ```
+```bash
+git clone https://github.com/guglanisuvid/AI-Follow-Up.git
+```
 
-2. Install dependencies , run the command in `client` and `server` folder seperately:
+### Install dependencies
 
-   ```bash
-   npm install
-   ```
+Install dependencies separately inside the `client` and `server` folders:
 
-3. Create a project in **Google Cloud Platform** to set up authentication.
+```bash
+npm install
+```
 
-4. Set up environment variables for both server and client:
+### Configure Environment Variables
 
-### Server `.env`
+#### Server `.env`
 
+```env
 PORT=
 VITE_APP_URL=
 MONGO_URI=
@@ -111,31 +102,41 @@ GOOGLE_REDIRECT_URI=
 GEMINI_API_KEY=
 JWT_SECRET=
 JWT_EXPIRATION=
+```
 
-### Client `.env`
+#### Client `.env`
 
+```env
 VITE_API_URL=
+```
 
-5. Run the command in `client` folder:
+### Run the application
+
+#### Client
 
 ```bash
 npm run dev
 ```
 
-6. Run the commands in `server` folder:
+#### Server
 
 ```bash
 npm run inngest-dev
-```
-
-```bash
 npm run dev
 ```
 
 ---
 
-## 📜 License
+## Future Improvements
 
-This project is licensed under the **MIT License**.
+* Configurable follow-up timing
+* Multi-email thread support
+* AI personalization controls
+* Analytics for follow-up performance
+* Dockerized deployment
 
 ---
+
+## License
+
+MIT License
